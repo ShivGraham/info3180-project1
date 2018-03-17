@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block main %}
+    {% include 'flash_messages.html' %}
+    <img src="{{ url_for('static', filename = 'uploads/' + user.photo_name) }}" />
+    {{ user.first_name }} {{ user.last_name }}
+    {{ user.email }}
+    {{ user.location }}
+    {{ "Joined on" }} {{ user.created_on }}
+    {{ "About Me" }}
+    {{ user.bio }}
+    <button id="msgBtn">Send Message</button>
+    <button id="followBtn">Follow</button>
+{% endblock %}

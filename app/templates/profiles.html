@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block main %}
+    {% include 'flash_messages.html' %}
+    
+    <h1>Profiles</h1>
+    {% for user in users %}
+        <div>
+            <img src="{{ url_for('static', filename = 'uploads/' + user.photo_name) }}" />
+            {{ user.first_name }} {{ user.last_name }}
+            {{ user.gender }}
+            {{ user.location }}
+            <button id="viewBtn" type="submit" onclick="{{ return redirect('/profile/user.get_id() }}>View Profile</button>
+        </div>
+    {% endfor %}
+{% endblock %}

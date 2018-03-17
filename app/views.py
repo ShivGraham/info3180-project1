@@ -5,11 +5,14 @@ Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
 This file creates your application.
 """
 
+import os
 from app import app, db, login_manager
 from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_user, logout_user, current_user, login_required
-from forms import LoginForm
+from forms import LoginForm, ProfileForm
 from models import UserProfile
+from werkzeug.security import check_password_hash
+from werkzeug.utils import secure_filename
 
 
 ###
@@ -27,36 +30,98 @@ def about():
     """Render the website's about page."""
     return render_template('about.html')
 
+@app.route('/profile')
+def addProfile():
+    import datetime
+    pForm = ProfileForm()
+    uFolder = app.config['UPLOAD_FOLDER']
+    
+    if request.method == "POST" and pForm.validate_on_submit():
+        f_name = request.form['f_name']
+        l_name = request.form['l_name']
+        gender = request.form['gender']
+        email = request.form['email']
+        location = request.form['location']
+        bio = request.form['bio']
+        
+        image_file = request.files['photo']
+        filename = secure_filename(image_file.filename)
+        image_file.save(os.path.join(uFolder, filename))
+        
+        user = UserProfile(f_name, l_name, gender, email, location, bio, filename, datetime.date.today())
+        
+        db.session.add(user)
+        db.session.commit()
+        
+        flash('New profile added!', 'sucess')
+        return redirect('/profiles')
+    return render_template('profile.html', pForm=pForm) 
+    
+@app.route('/profiles')
+def listProfiles():
+    users = db.session.query(UserProfile).all()
+    return render_template('profiles.html', users=users)
+    
+@app.route('/profile/<userid>')
+def showProfile(userid):
+    user = UserProfile.query.filter_by(id=userid).first()
+    
+    return render_template('user_profile.html', user)
+    
+###
+#  This function stores the names of the uploaded images in the uploads folder and returns them as a list
+###
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    form = LoginForm()
-    if request.method == "POST":
+def get_uploaded_images():
+    rootdir = os.getcwd()
+    
+    file_list = []
+    
+    for subdir, dirs, files in os.walk(rootdir + '/app/static/uploads'):
+        for file in files:
+		    name, ext = os.path.splitext(file)
+		    if ((ext == '.jpg') or (ext == '.jpeg') or (ext == '.png')):
+		        file_list.append(file)
+	return file_list
+    
+#@app.route("/login", methods=["GET", "POST"])
+#def login():
+#    form = LoginForm()
+#    if request.method == "POST":
         # changed this to actually validate the entire form submission
         # and not just one field
-        if form.validate_on_submit():
-            u_name = form.username.data
-            pwd = form.password.data
+#        if form.validate_on_submit():
+#            u_name = form.username.data
+#            pwd = form.password.data
             
-            user = UserProfile.query.filter_by(username=u_name, password=pwd).first()
+#            user = UserProfile.query.filter_by(username=u_name, password=pwd).first()
             
-            # get user id, load into session
-            login_user(user)
+#            if user is not None and check_password_hash(user.pwd, pwd):
+#                remember_me = False
 
-            # remember to flash a message to the user
-            flash('Successfully logged in', 'success')
-            return redirect(url_for('secure_page'))  # redirected to a secure-page route instead
-    return render_template("login.html", form=form)
+#                if 'remember_me' in request.form:
+#                    remember_me = True
+#                # get user id, load into session
+#                login_user(user, remember=remember_me)
 
-@app.route('/logout')
-@login_required
-def logout():
-    """Logs out current user"""
-    logout_user()
+                # remember to flash a message to the user
+#                flash('Successfully logged in', 'success')
+#                return redirect(url_for('secure_page'))  # redirected to a secure-page route instead
+#            else:
+#                flash('Username or Password is incorrect.', 'danger')
+
+#    flash_errors(form)
+#    return render_template("login.html", form=form)
+
+#@app.route('/logout')
+#@login_required
+#def logout():
+#    """Logs out current user"""
+#    logout_user()
     
-    flash ('You are now logged out', 'danger')
-    return redirect( url_for('home'))
-    
+#    flash ('You are now logged out', 'danger')
+#    return redirect( url_for('home'))
+
 
 @app.route('/secure-page')
 @login_required
@@ -66,9 +131,9 @@ def secure_page():
 
 # user_loader callback. This callback is used to reload the user object from
 # the user ID stored in the session
-@login_manager.user_loader
-def load_user(id):
-    return UserProfile.query.get(int(id))
+#@login_manager.user_loader
+#def load_user(id):
+#    return UserProfile.query.get(int(id))
 
 ###
 # The functions below should be applicable to all Flask apps.
