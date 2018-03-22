@@ -50,7 +50,7 @@ def addProfile():
         image_file.save(os.path.join(uFolder, filename))
         
         now = datetime.datetime.now()
-        joined = format_date_joined(now.year, now.month, now.day)
+        joined = "" + format_date_joined(now.year, now.month, now.day)
         
         user = UserProfile(f_name, l_name, gender, email, location, bio, filename, joined)
         

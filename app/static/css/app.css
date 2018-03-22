@@ -102,6 +102,7 @@ img {
 	clear: both;
 	padding-top: 50px;
 	margin-bottom: 50px;
+	font-size: 18px;
 }
 
 #msgBtn {
@@ -124,7 +125,7 @@ img {
 	margin-left: 20px;
 }
 
-#mailImg, #locImg, #dateImg {
+#mailImg, #locImg, #dateImg, #iconImg {
 	height: 20px;
 	width: 20px;
 	margin-right: 10px;

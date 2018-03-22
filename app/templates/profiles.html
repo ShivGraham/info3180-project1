@@ -12,9 +12,11 @@
             <div class="card-body">
                 <img src="{{ url_for('static', filename = 'uploads/' + user.photo_name) }}" />
                 <div class="info">
-                    <div class="card-title">{{ user.first_name }} {{ user.last_name }}</div>
+                    <h4 class="card-title">{{ user.first_name }} {{ user.last_name }}</h4>
+                    <img src="{{ url_for('static', filename = 'images/' + 'icon.png') }}" id="iconImg"/>
                     {{ user.gender }}
                     <br/>
+                    <img src="{{ url_for('static', filename = 'images/' + 'location.png') }}" id="locImg"/>
                     {{ user.location }}
                 </div>
                 {% set id = user.get_id() %}
