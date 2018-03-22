@@ -2,17 +2,18 @@
 
 {% block main %}
   {% include 'flash_messages.html' %}
-  <h1>Add Profile</h1>
+  <body>
+  <h1 id="addh1">Add Profile</h1>
   <div id="top"></div>
-  <div class="container">
+  <div id="container">
     <form action="{{ url_for('addProfile') }}" method="POST" enctype="multipart/form-data">
       <div class="form-group">
         {{ pForm.f_name.label }}
-        {{ pForm.f_name }}
+        {{ pForm.f_name(class='form-control') }}
       </div>
       <div class="form-group">
           {{ pForm.l_name.label }}
-          {{ pForm.l_name }}
+          {{ pForm.l_name(class='form-control') }}
       </div>
       <div class="form-group">
           {{ pForm.gender.label }}
@@ -28,16 +29,15 @@
       </div>
       <div class="form-group">
           {{ pForm.bio.label }}
-          {{ pForm.bio }}
+          {{ pForm.bio(class='form-control') }}
       </div>
       <div class="form-group">
           {{ pForm.photo.label }}
-          {{ pForm.photo }}
+          {{ pForm.photo(id="fileBtn") }}
       </div>
-      
-      <button type="submit">Add Profile</button>
-      
+      <button type="submit" id="addBtn" class="btn btn-primary">Add Profile</button>
       {{ pForm.csrf_token }}
+      </body>
     </form>
   </div>
 {% endblock %}

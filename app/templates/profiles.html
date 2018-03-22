@@ -1,16 +1,25 @@
 {% extends "base.html" %}
+<script type="text/javascript" src="app.js"></script>
 
 {% block main %}
     {% include 'flash_messages.html' %}
     
-    <h1>Profiles</h1>
+    <h1 id="title">Profiles</h1>
+   
     {% for user in users %}
-        <div>
-            <img src="{{ url_for('static', filename = 'uploads/' + user.photo_name) }}" />
-            {{ user.first_name }} {{ user.last_name }}
-            {{ user.gender }}
-            {{ user.location }}
-            <button id="viewBtn" type="submit" onclick="{{ return redirect('/profile/user.get_id() }}>View Profile</button>
+        <div class="card">
+            <div class="card-header"></div>
+            <div class="card-body">
+                <img src="{{ url_for('static', filename = 'uploads/' + user.photo_name) }}" />
+                <div class="info">
+                    <div class="card-title">{{ user.first_name }} {{ user.last_name }}</div>
+                    {{ user.gender }}
+                    <br/>
+                    {{ user.location }}
+                </div>
+                {% set id = user.get_id() %}
+                <button id="viewBtn" onclick="location.href='{{ url_for('showProfile', userid=id) }}'">View Profile</button>
+            </div>
         </div>
     {% endfor %}
 {% endblock %}

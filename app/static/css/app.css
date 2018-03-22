@@ -1,8 +1,140 @@
 body {
     padding-top: 5rem;
+    background-color: #ebf3fa;
 }
 
-#photo{
-    margin-top: 30px;
-    margin-bottom: 40px;
+label {
+	font-weight: bold;
+}
+
+img {
+	float: left;
+	height: auto
+	width: auto; 
+    max-width: 200px; 
+    max-height: 200px;
+}
+
+.form-group {
+	padding-top: 30px;
+	margin-left: 50px;
+	width: 60%;
+}
+
+.card {
+	width: 80%;
+	margin: 0 auto;
+	margin-top: 20px;
+}
+
+.card-header {
+	background-color: #4a90e2;
+	padding-top: 1px;
+}
+
+.card-title {
+	font-weight: bold;
+}
+
+#browseBtn {
+	background-color: #ffffff;
+	margin-bottom: 25px;
+	height: 30px;
+	width: 100px;
+}
+
+#addBtn {
+	margin-bottom: 15px;
+	margin-left: 50px;
+	margin-top: 10px;
+}
+
+#fileBtn {
+	margin-top: 10px;
+}
+
+#container {
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	background-color: white;
+	margin-top: 40px;
+	margin: 0 auto;
+	width: 60%;
+}
+
+#top {
+	background-color: #4a90e2;
+	height: 3px;
+	width: 60%;
+	margin: 0 auto;
+	margin-top:  50px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+#bio {
+	height: 150px;
+	width: 100%;
+	margin-top: 10px;
+}
+
+#addh1 {
+	margin-left: 225px;
+	margin-top: 30px;
+}
+
+.info {
+	margin-left: 50px;
+	float: left;
+}
+
+#viewBtn {
+	float: right;
+	color: white;
+	background-color: #42DE32;
+	border-color: #42DE32;
+	border-radius: 6px;
+	width: 200px;
+	height: 45px;
+}
+
+#about_me {
+	clear: both;
+	padding-top: 50px;
+	margin-bottom: 50px;
+}
+
+#msgBtn {
+	color: white;
+	background-color: #42DE32;
+	border-color: #42DE32;
+	border-radius: 6px;
+	width: 200px;
+	height: 45px;
+	margin-left: 225px;
+}
+
+#followBtn {
+	color: white;
+	background-color: #404AED;
+	border-color: #404AED;
+	border-radius: 6px;
+	width: 200px;
+	height: 45px;
+	margin-left: 20px;
+}
+
+#mailImg, #locImg, #dateImg {
+	height: 20px;
+	width: 20px;
+	margin-right: 10px;
+}
+
+#title {
+	margin-left: 115px;
+}
+
+#me {
+	color: #5D6D7E;
+	font-weight: bold;
 }

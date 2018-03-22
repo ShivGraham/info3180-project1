@@ -14,6 +14,8 @@ from models import UserProfile
 from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
 
+import datetime
+
 
 ###
 # Routing for your application.
@@ -30,9 +32,8 @@ def about():
     """Render the website's about page."""
     return render_template('about.html')
 
-@app.route('/profile')
+@app.route('/profile', methods=["GET", "POST"])
 def addProfile():
-    import datetime
     pForm = ProfileForm()
     uFolder = app.config['UPLOAD_FOLDER']
     
@@ -48,25 +49,34 @@ def addProfile():
         filename = secure_filename(image_file.filename)
         image_file.save(os.path.join(uFolder, filename))
         
-        user = UserProfile(f_name, l_name, gender, email, location, bio, filename, datetime.date.today())
+        now = datetime.datetime.now()
+        joined = format_date_joined(now.year, now.month, now.day)
+        
+        user = UserProfile(f_name, l_name, gender, email, location, bio, filename, joined)
         
         db.session.add(user)
         db.session.commit()
         
         flash('New profile added!', 'sucess')
-        return redirect('/profiles')
+        return redirect(url_for('listProfiles'))
     return render_template('profile.html', pForm=pForm) 
+    
+def format_date_joined(year, month, day):
+    date_joined = datetime.date(year, month, day)
+    return date_joined.strftime("%B %d, %Y")
     
 @app.route('/profiles')
 def listProfiles():
     users = db.session.query(UserProfile).all()
     return render_template('profiles.html', users=users)
-    
-@app.route('/profile/<userid>')
+   
+@app.route('/profile/<userid>', methods=["GET", "POST"])
 def showProfile(userid):
+    userid = str(userid)
+    
     user = UserProfile.query.filter_by(id=userid).first()
     
-    return render_template('user_profile.html', user)
+    return render_template('user_profile.html', user=user)
     
 ###
 #  This function stores the names of the uploaded images in the uploads folder and returns them as a list

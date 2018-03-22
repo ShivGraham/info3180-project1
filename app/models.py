@@ -13,7 +13,7 @@ class UserProfile(db.Model):
     location = db.Column(db.String(50))
     bio = db.Column(db.String(100))
     photo_name = db.Column(db.String(100))
-    created_on = db.Column(db.DateTime)
+    created_on = db.Column(db.String(14))
 
     def is_authenticated(self):
         return True
