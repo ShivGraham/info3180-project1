@@ -11,10 +11,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True # added just to suppress a w
 app.config['UPLOAD_FOLDER'] = './app/static/uploads'
 
 
+
 csrf = CSRFProtect(app) 
 
 #disabling csrf tokens temporarily to test
-WTF_CSRF_ENABLED = False
+#WTF_CSRF_ENABLED = False
 db = SQLAlchemy(app)
 
 # Flask-Login login manager
